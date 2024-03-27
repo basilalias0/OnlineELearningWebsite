@@ -1,0 +1,65 @@
+{% extends 'courses/base.html' %}
+{% block title %} Videos {% endblock title %}
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="col mx-auto">
+            <iframe id='player' width="100%"  src="https://www.youtube.com/embed/{{videos.id}}"
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;
+                    web-share" allowfullscreen></iframe>
+        </div>
+        <div class="col-3">
+            <ul id='video_list' class="list-group over-flow-y-scroll">
+            {% for item in vid %}
+                <li class="list-group-item {% if item == video %} active-video {% endif %}" style="color : orange">
+                    <a class="
+
+                    {% if not item.is_preview  %} text-muted no-preview {% endif %}
+                    {% if item == video %} active-video-link {% endif %}"
+
+                       href="?Lecture={{item.serial_number}}">{{item}}</a> </li>
+            {% endfor %}
+                </ul>
+        </div>
+        <div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <h6>Tutor:
+                    {% for item in course.teacher_set.all %}
+                       {{item.name}}</h6>
+            {% endfor %}
+
+    <p class="card-text">{{course.description}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+<script>
+    var player;
+    var video_list
+    document.onreadystatechange = function(){
+    if (document.readyState == 'interactive'){
+        player = document.getElementById('player')
+        video_list = document.getElementById('video_list')
+
+
+        maintainRatio()
+        }
+        }
+
+    function maintainRatio(){
+
+    var w = player.clientWidth
+    var h = ( w * 9 ) / 16
+    console.log({w, h});
+    player.height = h
+    video_list.style.maxHeight = h + 'px'
+    }
+    window.onresize = maintainRatio
+</script>
+
+{% endblock content %}

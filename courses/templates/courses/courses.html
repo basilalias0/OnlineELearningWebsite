@@ -1,0 +1,41 @@
+{% extends 'courses/base.html' %}
+{% load course_custom_tags %}
+{% block title %} Courses {% endblock title %}
+{% block content %}
+      <div class="container">
+          <div class="row">
+              {% for item in course %}
+              <div class= "col">
+                    <div class="card" style="width: 25rem;padding-top: 10px;margin-top:10px">
+                        <div style="width:100%; text-align:center">
+                      <img class="card-img-top" style="width: 12rem;height: 10rem" src="{{item.thumbnail}}"
+                           alt="Card image cap">
+                        </div>
+                      <div class="card-body">
+                        <h5 class="card-title">{{item}}</h5>
+                        <P class="card-text">₹ {{item.price}}</P>
+                          </div>
+                          <div class="p-2 "style="text-align: center">
+                              {% is_enrolled request course as enrolled %}
+                              <div class="row">
+                                  {% if enrolled %}
+                                  <div class="col">
+                                  <a href="/prodigyy/video/{{item.slug}}" class="btn ">Start Course</a></div>
+
+                              {% else %}
+                                  <div class="col">
+                              <a href="/prodigyy/checkout/{{item.slug}}" class="btn ">Enroll Now!!</a></div>
+                                  <div class="col">
+                              <a href="/prodigyy/video/{{item.slug}}" class="btn ">Show More</a></div>
+                                  {% endif %}
+                          </div>
+                        </div>
+                      </div>
+              </div>
+              {% endfor %}
+
+
+          </div>
+      </div>
+
+{% endblock content %}
